@@ -1,24 +1,39 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App() { 
+
+  const [todoState, setTodoState] = useState({
+    todoText:"",
+    todoItems: []
+  });
+
+  function addItem() {
+    setTodoState({
+      todoText: "",
+      todoItems: todoState.todoItems.concat(todoState.todoText)
+    });
+  };
+
+  const listItems = todoState.todoItems.map((item, i) =>
+    <li key={i}>{item}</li>
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="text" value={todoState.todoText} onChange={(event)=> {
+        console.log(event.target.value); 
+        setTodoState({
+          todoText:event.target.value,
+          todoItems: todoState.todoItems
+        })
+        }}> 
+      </input>
+      <button onClick={addItem}>
+        Add
+      </button>
+  <ul>{listItems}</ul>
     </div>
   );
 }
