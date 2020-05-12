@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { Input } from "semantic-ui-react";
+import { Input, List } from "semantic-ui-react";
 
 function App() {
   const [todoState, setTodoState] = useState({
@@ -17,7 +17,7 @@ function App() {
   }
 
   const listItems = todoState.todoItems.map((item, i) => (
-    <li key={i}>{item}</li>
+    <List.Item>{item}</List.Item>
   ));
 
   return (
@@ -38,7 +38,7 @@ function App() {
         value={todoState.todoText}
       />
 
-      <ul>{listItems}</ul>
+      <List>{listItems}</List>
     </div>
   );
 }
