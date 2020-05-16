@@ -53,7 +53,6 @@ function App() {
         }}
         placeholder="add item..."
         onChange={(event) => {
-          console.log(event.target.value);
           setTodoState({
             todoText: event.target.value,
             todoItems: todoState.todoItems,
