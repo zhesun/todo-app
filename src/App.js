@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import { Input, List, Checkbox } from "semantic-ui-react";
+import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
+
+const localStorageKey = "todos";
 
 function App() {
-  const [todoState, setTodoState] = useState({
+  const [todoState] = useLocalStorage(localStorageKey, {
     todoText: "",
     todoItems: [],
   });
 
   function addItem() {
-    setTodoState({
+    writeStorage(localStorageKey, {
       todoText: "",
       todoItems: todoState.todoItems.concat({
         text: todoState.todoText,
@@ -35,12 +38,13 @@ function App() {
         <Checkbox
           style={decoration}
           label={item.text}
+          checked={item.isDone}
           onChange={(event, data) => {
             todoState.todoItems[i] = {
               text: todoState.todoItems[i].text,
               isDone: !todoState.todoItems[i].isDone,
             };
-            setTodoState({
+            writeStorage(localStorageKey, {
               todoText: todoState.todoText,
               todoItems: todoState.todoItems,
             });
@@ -60,7 +64,7 @@ function App() {
         }}
         placeholder="add item..."
         onChange={(event) => {
-          setTodoState({
+          writeStorage(localStorageKey, {
             todoText: event.target.value,
             todoItems: todoState.todoItems,
           });
