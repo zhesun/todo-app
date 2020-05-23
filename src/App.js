@@ -12,13 +12,15 @@ function App() {
   });
 
   function addItem() {
-    writeStorage(localStorageKey, {
-      todoText: "",
-      todoItems: todoState.todoItems.concat({
-        text: todoState.todoText,
-        isDone: false,
-      }),
-    });
+    if (todoState.todoText !== "") {
+      writeStorage(localStorageKey, {
+        todoText: "",
+        todoItems: todoState.todoItems.concat({
+          text: todoState.todoText,
+          isDone: false,
+        }),
+      });
+    }
   }
 
   function handleKeyDown(event) {
