@@ -31,7 +31,7 @@ function App() {
     }
 
     return (
-      <List.Item>
+      <List.Item key={i}>
         <Checkbox
           style={decoration}
           label={item.text}
