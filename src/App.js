@@ -18,6 +18,12 @@ function App() {
     });
   }
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      addItem();
+    }
+  }
+
   const listItems = todoState.todoItems.map((item, i) => {
     let decoration = {};
     if (item.isDone === true) {
@@ -47,6 +53,7 @@ function App() {
   return (
     <div className="App">
       <Input
+        onKeyDown={handleKeyDown}
         action={{
           content: "add",
           onClick: () => addItem(),
