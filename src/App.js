@@ -23,7 +23,7 @@ function App() {
     }
   }
 
-  function handleKeyDown(event) {
+  function addItemOnEnter(event) {
     if (event.key === "Enter") {
       addItem();
     }
@@ -62,7 +62,7 @@ function App() {
         <Grid.Row>
           <Input
             style={{ width: "300px" }}
-            onKeyDown={handleKeyDown}
+            onKeyDown={addItemOnEnter}
             action={{
               content: "add",
               onClick: () => addItem(),
