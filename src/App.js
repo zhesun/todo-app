@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Input, List, Checkbox } from "semantic-ui-react";
+import { Input, List, Checkbox, Grid } from "semantic-ui-react";
 import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
 
 const localStorageKey = "todos";
@@ -58,23 +58,30 @@ function App() {
 
   return (
     <div className="App">
-      <Input
-        onKeyDown={handleKeyDown}
-        action={{
-          content: "add",
-          onClick: () => addItem(),
-        }}
-        placeholder="add item..."
-        onChange={(event) => {
-          writeStorage(localStorageKey, {
-            todoText: event.target.value,
-            todoItems: todoState.todoItems,
-          });
-        }}
-        value={todoState.todoText}
-      />
+      <Grid centered={true}>
+        <Grid.Row>
+          <Input
+            style={{ width: "300px" }}
+            onKeyDown={handleKeyDown}
+            action={{
+              content: "add",
+              onClick: () => addItem(),
+            }}
+            placeholder="add item..."
+            onChange={(event) => {
+              writeStorage(localStorageKey, {
+                todoText: event.target.value,
+                todoItems: todoState.todoItems,
+              });
+            }}
+            value={todoState.todoText}
+          />
+        </Grid.Row>
 
-      <List>{listItems}</List>
+        <Grid.Row>
+          <List style={{ width: "300px", textAlign: "left" }}>{listItems}</List>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 }
