@@ -1,25 +1,19 @@
 import React from "react";
 import "./App.css";
-import { Input, List, Checkbox, Grid, Button } from "semantic-ui-react";
+import { Input, Grid, Button } from "semantic-ui-react";
 import { writeStorage, useLocalStorage } from "@rehooks/local-storage";
+import { initialState, addNewItem, clearContent } from "./state";
+import TodoList from "./TodoList";
 
 const localStorageKey = "todos";
 
 function App() {
-  const [todoState] = useLocalStorage(localStorageKey, {
-    todoText: "",
-    todoItems: [],
-  });
+  const [todoState] = useLocalStorage(localStorageKey, initialState);
 
   function addItem() {
     if (todoState.todoText !== "") {
-      writeStorage(localStorageKey, {
-        todoText: "",
-        todoItems: todoState.todoItems.concat({
-          text: todoState.todoText,
-          isDone: false,
-        }),
-      });
+      const newState = addNewItem(todoState, todoState.todoText);
+      writeStorage(localStorageKey, newState);
     }
   }
 
@@ -30,38 +24,20 @@ function App() {
   }
 
   function clearAll() {
-    writeStorage(localStorageKey, {
-      todoText: todoState.todoText,
-      todoItems: [],
-    });
+    const clear = clearContent(todoState);
+    writeStorage(localStorageKey, clear);
   }
 
-  const listItems = todoState.todoItems.map((item, i) => {
-    let decoration = {};
-    if (item.isDone === true) {
-      decoration = { textDecoration: "line-through" };
-    }
-
-    return (
-      <List.Item key={i}>
-        <Checkbox
-          style={decoration}
-          label={item.text}
-          checked={item.isDone}
-          onChange={(event, data) => {
-            todoState.todoItems[i] = {
-              text: todoState.todoItems[i].text,
-              isDone: !todoState.todoItems[i].isDone,
-            };
-            writeStorage(localStorageKey, {
-              todoText: todoState.todoText,
-              todoItems: todoState.todoItems,
-            });
-          }}
-        />
-      </List.Item>
-    );
-  });
+  function updateState(index) {
+    todoState.todoItems[index] = {
+      text: todoState.todoItems[index].text,
+      isDone: !todoState.todoItems[index].isDone,
+    };
+    writeStorage(localStorageKey, {
+      todoText: todoState.todoText,
+      todoItems: todoState.todoItems,
+    });
+  }
 
   return (
     <div className="App">
@@ -90,7 +66,7 @@ function App() {
         </Grid.Row>
 
         <Grid.Row>
-          <List style={{ width: "400px", textAlign: "left" }}>{listItems}</List>
+          <TodoList todoState={todoState} updateState={updateState} />
         </Grid.Row>
       </Grid>
     </div>
